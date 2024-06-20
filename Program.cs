@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using UserPermissionsManagement.Contexts;
+using UserPermissionsManagement.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,9 @@ var connectionString = builder.Configuration.GetConnectionString("DbConexion");
 
 builder.Services.AddDbContext<UserPermissionsContext>(options =>
     options.UseSqlServer(connectionString));
+
+builder.Services.AddScoped<IPermissionService, PermissionService>();
+builder.Services.AddScoped<IPermissionTypeService, PermissionTypeService>();
 
 var app = builder.Build();
 
