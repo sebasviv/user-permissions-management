@@ -6,11 +6,11 @@ namespace Models;
 public class Permission
 {
 
-    public Guid Id { get; set; }
+    public int Id { get; set; }
 
     public string NombreEmpleado { get; set; }
     public string ApellidoEmpleado { get; set; }
-    public Guid TipoPermisoId { get; set; }
+    public int TipoPermisoId { get; set; }
     public PermissionType TipoPermiso { get; set; }
     public DateTime FechaPermiso { get; set; }
 }

@@ -22,8 +22,7 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<UserPermissionsContext>();
-    dbContext.Database.EnsureCreated(); 
-    //dbContext.Database.Migrate();  
+    dbContext.Database.Migrate();  
 }
 
 app.MapGet("/dbconexion", async ([FromServices] UserPermissionsContext dbContext) => {

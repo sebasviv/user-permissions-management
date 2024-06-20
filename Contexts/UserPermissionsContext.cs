@@ -11,6 +11,17 @@ public class UserPermissionsContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        List<Permission> permissionInit = new List<Permission>();
+        List<PermissionType> permissionTypeInit = new List<PermissionType>();
+
+        permissionInit.Add(new Permission { Id = 1, NombreEmpleado = "Juan", ApellidoEmpleado = "Perez", FechaPermiso = DateTime.Now, TipoPermisoId = 1});
+        permissionInit.Add(new Permission { Id = 2, NombreEmpleado = "Maria", ApellidoEmpleado = "Gomez", FechaPermiso = DateTime.Now, TipoPermisoId = 2});
+        permissionInit.Add(new Permission { Id = 3, NombreEmpleado = "Pedro", ApellidoEmpleado = "Rodriguez", FechaPermiso = DateTime.Now, TipoPermisoId = 3});
+
+        permissionTypeInit.Add(new PermissionType { Id = 1, Description = "Vacaciones"});
+        permissionTypeInit.Add(new PermissionType { Id = 2, Description = "Enfermedad"});
+        permissionTypeInit.Add(new PermissionType { Id = 3, Description = "Permiso sin goce de sueldo"});
+
         modelBuilder.Entity<Permission>(permission =>
         {
             permission.ToTable("Permission");
@@ -22,6 +33,8 @@ public class UserPermissionsContext : DbContext
             permission.HasOne(p => p.TipoPermiso)
                     .WithMany(pt => pt.Permission)
                     .HasForeignKey(p => p.TipoPermisoId);
+
+            permission.HasData(permissionInit);
         });
 
         modelBuilder.Entity<PermissionType>(permissionType =>
@@ -29,6 +42,8 @@ public class UserPermissionsContext : DbContext
             permissionType.ToTable("PermissionType");
             permissionType.HasKey(p => p.Id);
             permissionType.Property(p => p.Description).IsRequired();
+
+            permissionType.HasData(permissionTypeInit);
         });
     }
 }
