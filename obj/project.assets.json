@@ -3114,11 +3114,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Sebas\\OneDrive\\Escritorio\\user-permissions-management\\..csproj",
-      "projectName": ".",
-      "projectPath": "C:\\Users\\Sebas\\OneDrive\\Escritorio\\user-permissions-management\\..csproj",
+      "projectUniqueName": "C:\\Users\\Sebas\\OneDrive\\Escritorio\\userpermissionsmanagement\\userpermissionsmanagement.csproj",
+      "projectName": "userpermissionsmanagement",
+      "projectPath": "C:\\Users\\Sebas\\OneDrive\\Escritorio\\userpermissionsmanagement\\userpermissionsmanagement.csproj",
       "packagesPath": "C:\\Users\\Sebas\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Sebas\\OneDrive\\Escritorio\\user-permissions-management\\obj\\",
+      "outputPath": "C:\\Users\\Sebas\\OneDrive\\Escritorio\\userpermissionsmanagement\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Sebas\\AppData\\Roaming\\NuGet\\NuGet.Config"

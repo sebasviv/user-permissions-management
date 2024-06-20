@@ -11,13 +11,23 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<UserPermissionsContext>(p => p.UseInMemoryDatabase("UserPermissionsDB"));
+
+var connectionString = builder.Configuration.GetConnectionString("DbConexion");
+
+builder.Services.AddDbContext<UserPermissionsContext>(options =>
+    options.UseSqlServer(connectionString));
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<UserPermissionsContext>();
+    dbContext.Database.EnsureCreated(); 
+    //dbContext.Database.Migrate();  
+}
+
 app.MapGet("/dbconexion", async ([FromServices] UserPermissionsContext dbContext) => {
-    
-    return Results.Ok("Database created" + dbContext.Database.IsInMemory());
+    return Results.Ok("Database created: " + dbContext.Database.IsSqlServer());
 });
 
 // Configure the HTTP request pipeline.

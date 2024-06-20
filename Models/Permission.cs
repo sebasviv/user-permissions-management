@@ -3,17 +3,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Models;
 
-    public class Permission
-    {
-        [Key]
-        public Guid Id { get; set; }
-        [Required]
-        public string NombreEmpleado { get; set; }
-        [Required]
-        public string ApellidoEmpleado { get; set; }
-        [Required]
-        [ForeignKey("TipoPermiso")]
-        public int TipoPermiso { get; set; }
-        [Required]
-        public DateTime FechaPermiso { get; set; }
-    }
+public class Permission
+{
+
+    public Guid Id { get; set; }
+
+    public string NombreEmpleado { get; set; }
+    public string ApellidoEmpleado { get; set; }
+    public Guid TipoPermisoId { get; set; }
+    public PermissionType TipoPermiso { get; set; }
+    public DateTime FechaPermiso { get; set; }
+}
