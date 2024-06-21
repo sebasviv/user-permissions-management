@@ -55,7 +55,7 @@ namespace _.Migrations
                         {
                             Id = 1,
                             ApellidoEmpleado = "Perez",
-                            FechaPermiso = new DateTime(2024, 6, 19, 20, 59, 48, 842, DateTimeKind.Local).AddTicks(5594),
+                            FechaPermiso = new DateTime(2024, 6, 20, 21, 45, 54, 383, DateTimeKind.Local).AddTicks(7451),
                             NombreEmpleado = "Juan",
                             TipoPermisoId = 1
                         },
@@ -63,7 +63,7 @@ namespace _.Migrations
                         {
                             Id = 2,
                             ApellidoEmpleado = "Gomez",
-                            FechaPermiso = new DateTime(2024, 6, 19, 20, 59, 48, 842, DateTimeKind.Local).AddTicks(5612),
+                            FechaPermiso = new DateTime(2024, 6, 20, 21, 45, 54, 383, DateTimeKind.Local).AddTicks(7468),
                             NombreEmpleado = "Maria",
                             TipoPermisoId = 2
                         },
@@ -71,7 +71,7 @@ namespace _.Migrations
                         {
                             Id = 3,
                             ApellidoEmpleado = "Rodriguez",
-                            FechaPermiso = new DateTime(2024, 6, 19, 20, 59, 48, 842, DateTimeKind.Local).AddTicks(5614),
+                            FechaPermiso = new DateTime(2024, 6, 20, 21, 45, 54, 383, DateTimeKind.Local).AddTicks(7470),
                             NombreEmpleado = "Pedro",
                             TipoPermisoId = 3
                         });

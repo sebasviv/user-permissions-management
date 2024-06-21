@@ -63,9 +63,9 @@ namespace _.Migrations
                 columns: new[] { "Id", "ApellidoEmpleado", "FechaPermiso", "NombreEmpleado", "TipoPermisoId" },
                 values: new object[,]
                 {
-                    { 1, "Perez", new DateTime(2024, 6, 19, 20, 59, 48, 842, DateTimeKind.Local).AddTicks(5594), "Juan", 1 },
-                    { 2, "Gomez", new DateTime(2024, 6, 19, 20, 59, 48, 842, DateTimeKind.Local).AddTicks(5612), "Maria", 2 },
-                    { 3, "Rodriguez", new DateTime(2024, 6, 19, 20, 59, 48, 842, DateTimeKind.Local).AddTicks(5614), "Pedro", 3 }
+                    { 1, "Perez", new DateTime(2024, 6, 20, 21, 45, 54, 383, DateTimeKind.Local).AddTicks(7451), "Juan", 1 },
+                    { 2, "Gomez", new DateTime(2024, 6, 20, 21, 45, 54, 383, DateTimeKind.Local).AddTicks(7468), "Maria", 2 },
+                    { 3, "Rodriguez", new DateTime(2024, 6, 20, 21, 45, 54, 383, DateTimeKind.Local).AddTicks(7470), "Pedro", 3 }
                 });
 
             migrationBuilder.CreateIndex(

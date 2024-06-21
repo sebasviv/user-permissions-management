@@ -5,10 +5,10 @@ using UserPermissionsManagement.Services;
 namespace UserPermissionsManagement.Controllers;
 
 [Route("api/[controller]")]
-public class PermisssionController : ControllerBase
+public class PermissionController : ControllerBase
 {
     IPermissionService permissionService;
-    public PermisssionController(IPermissionService service)
+    public PermissionController(IPermissionService service)
     {
         this.permissionService = service;
     }
