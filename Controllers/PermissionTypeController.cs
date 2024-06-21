@@ -6,7 +6,7 @@ namespace UserPermissionsManagement.Controllers
     [Route("api/[controller]")]
     public class PermissionTypeController : ControllerBase
     {
-        IPermissionTypeService permissionTypeService;
+        readonly IPermissionTypeService permissionTypeService;
         public PermissionTypeController(IPermissionTypeService service)
         {
             this.permissionTypeService = service;
@@ -19,23 +19,23 @@ namespace UserPermissionsManagement.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] PermissionType permissionType)
+        public async Task<IActionResult> Post([FromBody] PermissionType permissionType)
         {
-            permissionTypeService.Save(permissionType);
+            await permissionTypeService.Save(permissionType);
             return Ok();
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] PermissionType permissionType)
+        public async Task<IActionResult> Put(int id, [FromBody] PermissionType permissionType)
         {
-            permissionTypeService.Update(id, permissionType);
+            await permissionTypeService.Update(id, permissionType);
             return Ok();
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            permissionTypeService.Delete(id);
+            await permissionTypeService.Delete(id);
             return Ok();
         }
     }

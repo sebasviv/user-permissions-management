@@ -18,34 +18,60 @@ public class PermissionService : IPermissionService
 
     public async Task Save(Permission permission)
     {
-        context.Add(permission);
-        await context.SaveChangesAsync();
+        try
+        {
+            await context.AddAsync(permission);
+            await context.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            Console.WriteLine($"Stack Trace: {ex.StackTrace}");
+        }
+
     }
 
     public async Task Update(int id, Permission permission)
     {
-        var permissionToUpdate = context.Permissions.Find(id);
-
-        if (permissionToUpdate != null)
+        try
         {
-            permissionToUpdate.NombreEmpleado = permission.NombreEmpleado;
-            permissionToUpdate.ApellidoEmpleado = permission.ApellidoEmpleado;
-            permissionToUpdate.TipoPermisoId = permission.TipoPermisoId;
-            permissionToUpdate.FechaPermiso = permission.FechaPermiso;
+            var permissionToUpdate = await context.Permissions.FindAsync(id);
 
-            await context.SaveChangesAsync();
+            if (permissionToUpdate != null)
+            {
+                permissionToUpdate.NombreEmpleado = permission.NombreEmpleado;
+                permissionToUpdate.ApellidoEmpleado = permission.ApellidoEmpleado;
+                permissionToUpdate.TipoPermisoId = permission.TipoPermisoId;
+                permissionToUpdate.FechaPermiso = permission.FechaPermiso;
+
+                await context.SaveChangesAsync();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            Console.WriteLine($"Stack Trace: {ex.StackTrace}");
         }
     }
 
     public async Task Delete(int id)
     {
-        var permissionToDelete = context.Permissions.Find(id);
-
-        if (permissionToDelete != null)
+        try
         {
-            context.Permissions.Remove(permissionToDelete);
-            await context.SaveChangesAsync();
+            var permissionToDelete = await context.Permissions.FindAsync(id);
+
+            if (permissionToDelete != null)
+            {
+                context.Permissions.Remove(permissionToDelete);
+                await context.SaveChangesAsync();
+            }
         }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            Console.WriteLine($"Stack Trace: {ex.StackTrace}");
+        }
+
     }
 
 }

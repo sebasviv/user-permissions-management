@@ -7,7 +7,7 @@ namespace UserPermissionsManagement.Controllers;
 [Route("api/[controller]")]
 public class PermissionController : ControllerBase
 {
-    IPermissionService permissionService;
+    readonly IPermissionService permissionService;
     public PermissionController(IPermissionService service)
     {
         this.permissionService = service;
@@ -20,23 +20,23 @@ public class PermissionController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult Post([FromBody] Permission permission)
+    public async Task<IActionResult> Post([FromBody] Permission permission)
     {
-        permissionService.Save(permission);
+        await permissionService.Save(permission);
         return Ok();
     }
 
     [HttpPut("{id}")]
-    public IActionResult Put(int id, [FromBody] Permission permission)
+    public async Task<IActionResult> Put(int id, [FromBody] Permission permission)
     {
-        permissionService.Update(id, permission);
+        await permissionService.Update(id, permission);
         return Ok();
     }
 
     [HttpDelete("{id}")]
-    public IActionResult Delete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
-        permissionService.Delete(id);
+        await permissionService.Delete(id);
         return Ok();
     }
 }

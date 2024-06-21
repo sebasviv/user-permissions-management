@@ -2,35 +2,72 @@ using Models;
 using UserPermissionsManagement.Contexts;
 namespace UserPermissionsManagement.Services;
 
-public class PermissionTypeService: IPermissionTypeService {
+public class PermissionTypeService : IPermissionTypeService
+{
     private readonly UserPermissionsContext context;
-    public PermissionTypeService(UserPermissionsContext dbcontext) {
+    public PermissionTypeService(UserPermissionsContext dbcontext)
+    {
         context = dbcontext;
     }
-    public IEnumerable<PermissionType> Get() {
+    public IEnumerable<PermissionType> Get()
+    {
         return context.PermissionTypes.ToList();
     }
-    public async Task Save(PermissionType permissionType) {
-        context.Add(permissionType);
-        await context.SaveChangesAsync();
-    }
-    public async Task Update(int id, PermissionType permissionType) {
-        var permissionTypeToUpdate = context.PermissionTypes.Find(id);
-        if (permissionTypeToUpdate != null) {
-            permissionTypeToUpdate.Description = permissionType.Description;
+    public async Task Save(PermissionType permissionType)
+    {
+
+        try
+        {
+            await context.AddAsync(permissionType);
             await context.SaveChangesAsync();
         }
-    }
-    public async Task Delete(int id) {
-        var permissionTypeToDelete = context.PermissionTypes.Find(id);
-        if (permissionTypeToDelete != null) {
-            context.PermissionTypes.Remove(permissionTypeToDelete);
-            await context.SaveChangesAsync();
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            Console.WriteLine($"Stack Trace: {ex.StackTrace}");
         }
+
+    }
+    public async Task Update(int id, PermissionType permissionType)
+    {
+        try
+        {
+            var permissionTypeToUpdate = await context.PermissionTypes.FindAsync(id);
+            if (permissionTypeToUpdate != null)
+            {
+                permissionTypeToUpdate.Description = permissionType.Description;
+                await context.SaveChangesAsync();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            Console.WriteLine($"Stack Trace: {ex.StackTrace}");
+        }
+
+    }
+    public async Task Delete(int id)
+    {
+        try
+        {
+            var permissionTypeToDelete = await context.PermissionTypes.FindAsync(id);
+            if (permissionTypeToDelete != null)
+            {
+                context.PermissionTypes.Remove(permissionTypeToDelete);
+                await context.SaveChangesAsync();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            Console.WriteLine($"Stack Trace: {ex.StackTrace}");
+        }
+
     }
 }
 
-public interface IPermissionTypeService {
+public interface IPermissionTypeService
+{
     IEnumerable<PermissionType> Get();
     Task Save(PermissionType permissionType);
     Task Update(int id, PermissionType permissionType);
