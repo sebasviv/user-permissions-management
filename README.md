@@ -1,5 +1,7 @@
 # .Net 8 + Entity Framework Core 8 + SQL Server
 
+Autor: Sebastian Viveros
+
 Para correr el proyecto debe tener instalado .Net 8 y SQL Server. 
 
 Este proyecto contiene datos semillas para la tablas Permission y permissiontype para validar su creacion en la base de datos.
