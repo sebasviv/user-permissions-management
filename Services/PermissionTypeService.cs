@@ -1,75 +1,71 @@
 using Models;
-using UserPermissionsManagement.Contexts;
-namespace UserPermissionsManagement.Services;
-
-public class PermissionTypeService : IPermissionTypeService
+using UserPermissionsManagement.Repositories;
+namespace UserPermissionsManagement.Services
 {
-    private readonly UserPermissionsContext context;
-    public PermissionTypeService(UserPermissionsContext dbcontext)
+    public class PermissionTypeService : IPermissionTypeService
     {
-        context = dbcontext;
-    }
-    public IEnumerable<PermissionType> Get()
-    {
-        return context.PermissionTypes.ToList();
-    }
-    public async Task Save(PermissionType permissionType)
-    {
+        private readonly IPermissionTypeRepository permissionTypeRepository;
 
-        try
+        public PermissionTypeService(IPermissionTypeRepository repository)
         {
-            await context.AddAsync(permissionType);
-            await context.SaveChangesAsync();
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error: {ex.Message}");
-            Console.WriteLine($"Stack Trace: {ex.StackTrace}");
+            permissionTypeRepository = repository;
         }
 
-    }
-    public async Task Update(int id, PermissionType permissionType)
-    {
-        try
+        public IEnumerable<PermissionType> Get()
         {
-            var permissionTypeToUpdate = await context.PermissionTypes.FindAsync(id);
-            if (permissionTypeToUpdate != null)
+            return permissionTypeRepository.GetAll();
+        }
+
+        public async Task Save(PermissionType permissionType)
+        {
+            try
             {
-                permissionTypeToUpdate.Description = permissionType.Description;
-                await context.SaveChangesAsync();
+                await permissionTypeRepository.Add(permissionType);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine($"Stack Trace: {ex.StackTrace}");
             }
         }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error: {ex.Message}");
-            Console.WriteLine($"Stack Trace: {ex.StackTrace}");
-        }
 
-    }
-    public async Task Delete(int id)
-    {
-        try
+        public async Task Update(int id, PermissionType permissionType)
         {
-            var permissionTypeToDelete = await context.PermissionTypes.FindAsync(id);
-            if (permissionTypeToDelete != null)
+            try
             {
-                context.PermissionTypes.Remove(permissionTypeToDelete);
-                await context.SaveChangesAsync();
+                var existingPermissionType = await permissionTypeRepository.GetById(id);
+                if (existingPermissionType != null)
+                {
+                    existingPermissionType.Description = permissionType.Description;
+                    await permissionTypeRepository.Update(existingPermissionType);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine($"Stack Trace: {ex.StackTrace}");
             }
         }
-        catch (Exception ex)
+
+        public async Task Delete(int id)
         {
-            Console.WriteLine($"Error: {ex.Message}");
-            Console.WriteLine($"Stack Trace: {ex.StackTrace}");
+            try
+            {
+                await permissionTypeRepository.Delete(id);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine($"Stack Trace: {ex.StackTrace}");
+            }
         }
-
     }
-}
 
-public interface IPermissionTypeService
-{
-    IEnumerable<PermissionType> Get();
-    Task Save(PermissionType permissionType);
-    Task Update(int id, PermissionType permissionType);
-    Task Delete(int id);
+    public interface IPermissionTypeService
+    {
+        IEnumerable<PermissionType> Get();
+        Task Save(PermissionType permissionType);
+        Task Update(int id, PermissionType permissionType);
+        Task Delete(int id);
+    }
 }

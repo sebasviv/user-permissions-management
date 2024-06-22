@@ -1,27 +1,28 @@
 using Models;
 using UserPermissionsManagement.Contexts;
+using UserPermissionsManagement.Repositories;
 namespace UserPermissionsManagement.Services;
 
 public class PermissionService : IPermissionService
 {
 
-    readonly UserPermissionsContext context;
+    private readonly IPermissionRepository permissionRepository;
 
-    public PermissionService(UserPermissionsContext dbcontext)
+    public PermissionService(IPermissionRepository repository)
     {
-        context = dbcontext;
+        permissionRepository = repository;
     }
     public IEnumerable<Permission> Get()
     {
-        return context.Permissions.ToList();
+        return permissionRepository.GetAll();
     }
 
     public async Task Save(Permission permission)
     {
         try
         {
-            await context.AddAsync(permission);
-            await context.SaveChangesAsync();
+            await permissionRepository.Add(permission);
+      
         }
         catch (Exception ex)
         {
@@ -35,7 +36,7 @@ public class PermissionService : IPermissionService
     {
         try
         {
-            var permissionToUpdate = await context.Permissions.FindAsync(id);
+            var permissionToUpdate = await permissionRepository.GetById(id);
 
             if (permissionToUpdate != null)
             {
@@ -44,7 +45,7 @@ public class PermissionService : IPermissionService
                 permissionToUpdate.TipoPermisoId = permission.TipoPermisoId;
                 permissionToUpdate.FechaPermiso = permission.FechaPermiso;
 
-                await context.SaveChangesAsync();
+                await permissionRepository.Update(permissionToUpdate);
             }
         }
         catch (Exception ex)
@@ -58,13 +59,7 @@ public class PermissionService : IPermissionService
     {
         try
         {
-            var permissionToDelete = await context.Permissions.FindAsync(id);
-
-            if (permissionToDelete != null)
-            {
-                context.Permissions.Remove(permissionToDelete);
-                await context.SaveChangesAsync();
-            }
+            await permissionRepository.Delete(id);
         }
         catch (Exception ex)
         {
