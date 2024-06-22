@@ -2,7 +2,7 @@
 
 Para correr el proyecto debe tener instalado .Net 8 y SQL Server. 
 
-Este proyecto contiene datos semillas para la tablas Permission y PermissionTypes para validar su creacion en la base de datos.
+Este proyecto contiene datos semillas para la tablas Permission y permissiontype para validar su creacion en la base de datos.
 
 
 ## Pasos para correr el proyecto
@@ -13,14 +13,14 @@ Este proyecto contiene datos semillas para la tablas Permission y PermissionType
 5. Ejecutar el comando dotnet run en la consola de Nuget Package Manager para correr el proyecto.
 
 ## Endpoints
-1. GET /api/permissions
-2. POST /api/permissions
-3. PUT /api/permissions/{id}
-4. DELETE /api/permissions/{id}
-5. GET /api/permissiontypes
-6. POST /api/permissiontypes
-7. PUT /api/permissiontypes/{id}
-8. DELETE /api/permissiontypes/{id}
+1. GET /api/permission
+2. POST /api/permission
+3. PUT /api/permission/{id}
+4. DELETE /api/permission/{id}
+5. GET /api/permissiontype
+6. POST /api/permissiontype
+7. PUT /api/permissiontype/{id}
+8. DELETE /api/permissiontype/{id}
 
 ## Ejemplo de datos para crear un permiso.
 ```json
@@ -32,7 +32,7 @@ Este proyecto contiene datos semillas para la tablas Permission y PermissionType
 }
 ```
 
-## Ejemplo de datos para crear un permiso tipo de permiso.
+## Ejemplo de datos para crear un tipo de permiso.
 ```json
 {
     "description": "Crear un registro"
