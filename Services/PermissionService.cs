@@ -1,84 +1,55 @@
 using Models;
-using UserPermissionsManagement.Contexts;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using UserPermissionsManagement.Repositories;
-namespace UserPermissionsManagement.Services;
 
-public class PermissionService : IPermissionService
+namespace UserPermissionsManagement.Services
 {
-
-    private readonly IPermissionRepository permissionRepository;
-
-    public PermissionService(IPermissionRepository repository)
+    public class PermissionService : IPermissionService
     {
-        permissionRepository = repository;
-    }
-    public IEnumerable<Permission> Get()
-    {
-        return permissionRepository.GetAll();
-    }
+        private readonly IUnitOfWork _unitOfWork;
 
-    public async Task Save(Permission permission)
-    {
-        try
+        public PermissionService(IUnitOfWork unitOfWork)
         {
-            await permissionRepository.Add(permission);
-      
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error: {ex.Message}");
-            Console.WriteLine($"Stack Trace: {ex.StackTrace}");
+            _unitOfWork = unitOfWork;
         }
 
-    }
-
-    public async Task Update(int id, Permission permission)
-    {
-        try
+        public IEnumerable<Permission> Get()
         {
-            var permissionToUpdate = await permissionRepository.GetById(id);
+            return _unitOfWork.Permissions.GetAll();
+        }
 
+        public async Task Save(Permission permission)
+        {
+            await _unitOfWork.Permissions.Add(permission);
+            await _unitOfWork.CompleteAsync();
+        }
+
+        public async Task Update(int id, Permission permission)
+        {
+            var permissionToUpdate = await _unitOfWork.Permissions.GetById(id);
             if (permissionToUpdate != null)
             {
                 permissionToUpdate.NombreEmpleado = permission.NombreEmpleado;
                 permissionToUpdate.ApellidoEmpleado = permission.ApellidoEmpleado;
                 permissionToUpdate.TipoPermisoId = permission.TipoPermisoId;
                 permissionToUpdate.FechaPermiso = permission.FechaPermiso;
-
-                await permissionRepository.Update(permissionToUpdate);
             }
+            await _unitOfWork.CompleteAsync();
         }
-        catch (Exception ex)
+
+        public async Task Delete(int id)
         {
-            Console.WriteLine($"Error: {ex.Message}");
-            Console.WriteLine($"Stack Trace: {ex.StackTrace}");
+            await _unitOfWork.Permissions.Delete(id);
+            await _unitOfWork.CompleteAsync();
         }
     }
 
-    public async Task Delete(int id)
+    public interface IPermissionService
     {
-        try
-        {
-            await permissionRepository.Delete(id);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error: {ex.Message}");
-            Console.WriteLine($"Stack Trace: {ex.StackTrace}");
-        }
-
+        IEnumerable<Permission> Get();
+        Task Save(Permission permission);
+        Task Update(int id, Permission permission);
+        Task Delete(int id);
     }
-
-}
-
-
-public interface IPermissionService
-{
-    IEnumerable<Permission> Get();
-
-    Task Save(Permission permission);
-
-    Task Update(int id, Permission permission);
-
-    Task Delete(int id);
 }

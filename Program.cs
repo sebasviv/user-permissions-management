@@ -33,6 +33,7 @@ builder.Services.AddScoped<IPermissionTypeRepository, PermissionTypeRepository>(
 builder.Services.AddScoped<IPermissionService, PermissionService>();
 builder.Services.AddScoped<IPermissionTypeService, PermissionTypeService>();
 builder.Services.AddScoped<IPermissionRepository, PermissionRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
 

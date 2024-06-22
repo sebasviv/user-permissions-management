@@ -1,63 +1,44 @@
 using Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using UserPermissionsManagement.Repositories;
+
 namespace UserPermissionsManagement.Services
 {
     public class PermissionTypeService : IPermissionTypeService
     {
-        private readonly IPermissionTypeRepository permissionTypeRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public PermissionTypeService(IPermissionTypeRepository repository)
+        public PermissionTypeService(IUnitOfWork unitOfWork)
         {
-            permissionTypeRepository = repository;
+            _unitOfWork = unitOfWork;
         }
 
         public IEnumerable<PermissionType> Get()
         {
-            return permissionTypeRepository.GetAll();
+            return _unitOfWork.PermissionTypes.GetAll();
         }
 
         public async Task Save(PermissionType permissionType)
         {
-            try
-            {
-                await permissionTypeRepository.Add(permissionType);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-                Console.WriteLine($"Stack Trace: {ex.StackTrace}");
-            }
+            await _unitOfWork.PermissionTypes.Add(permissionType);
+            await _unitOfWork.CompleteAsync();
         }
 
         public async Task Update(int id, PermissionType permissionType)
         {
-            try
+            var existingPermissionType = await _unitOfWork.PermissionTypes.GetById(id);
+            if (existingPermissionType != null)
             {
-                var existingPermissionType = await permissionTypeRepository.GetById(id);
-                if (existingPermissionType != null)
-                {
-                    existingPermissionType.Description = permissionType.Description;
-                    await permissionTypeRepository.Update(existingPermissionType);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-                Console.WriteLine($"Stack Trace: {ex.StackTrace}");
+                existingPermissionType.Description = permissionType.Description;
+                await _unitOfWork.CompleteAsync();
             }
         }
 
         public async Task Delete(int id)
         {
-            try
-            {
-                await permissionTypeRepository.Delete(id);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-                Console.WriteLine($"Stack Trace: {ex.StackTrace}");
-            }
+            await _unitOfWork.PermissionTypes.Delete(id);
+            await _unitOfWork.CompleteAsync();
         }
     }
 
